@@ -49,8 +49,8 @@
     },
     "phase": {
       "type": "string",
-      "minLength": 1,
-      "description": "Lifecycle phase (e.g. spec, draft, locked)."
+      "enum": ["spec", "filled", "kill", "tube"],
+      "description": "Lifecycle phase: spec (design intent), filled (sequence present), kill (rejected), tube (physical)."
     }
   }
 }

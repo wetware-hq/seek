@@ -31,5 +31,5 @@
   ],
   "want": ["IVT mRNA with T7 and short 3UTR"],
   "forbid": ["long homopolymer runs"],
-  "phase": "spec"
+  "phase": "filled"
 }

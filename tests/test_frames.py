@@ -67,7 +67,7 @@ def test_chromosome_parent_child_refs():
     assert parent["topo"] == "circular"
     assert child_a["seq"] != ""
     assert child_b["seq"] == ""
-    assert child_a["phase"] == "draft"
+    assert child_a["phase"] == "filled"
     assert child_b["phase"] == "spec"
 
 
@@ -76,3 +76,28 @@ def test_schema_rejects_extra_root_keys():
     bad = {**frame, "extra": True}
     with pytest.raises(Exception):
         validate_frame(bad)
+
+
+def test_schema_rejects_unknown_phase():
+    frame = load_frame(EXAMPLES / "primer.json")
+    bad = {**frame, "phase": "draft"}
+    with pytest.raises(Exception):
+        validate_frame(bad)
+
+
+@pytest.mark.parametrize(
+    "name",
+    [
+        "primer.json",
+        "peptide_empty.json",
+        "peptide.json",
+        "peptide_aa.json",
+        "grna.json",
+        "mrna_cassette.json",
+        "chromosome_parent.json",
+        "chromosome_child_a.json",
+        "chromosome_child_b.json",
+    ],
+)
+def test_example_frames_validate(name: str):
+    validate_frame(load_frame(EXAMPLES / name))

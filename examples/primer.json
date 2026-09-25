@@ -13,5 +13,5 @@
   ],
   "want": ["PCR amplification of insert"],
   "forbid": ["hairpin Tm > 65C"],
-  "phase": "spec"
+  "phase": "filled"
 }

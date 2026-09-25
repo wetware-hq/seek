@@ -6,5 +6,5 @@
   "features": [],
   "want": ["express in E. coli"],
   "forbid": [],
-  "phase": "spec"
+  "phase": "filled"
 }
