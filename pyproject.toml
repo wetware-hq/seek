@@ -1,7 +1,7 @@
 [project]
 name = "seek"
 version = "0.1.0"
-description = "Sequence representation frame for synthetic DNA and informational polymers"
+description = "Sequence representation frame for informational polymers (DNA, RNA, AA, XNA)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

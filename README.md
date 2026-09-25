@@ -1,8 +1,6 @@
 # Seek
 
-**Clinical abstract.** Seek is a sequence representation frame for synthetic DNA and, more generally, any informational polymer in molecular biology. It is the durable object design models write when they commit sequence: one JSON record per polymer, with explicit intent (`want`, `forbid`) and lifecycle (`phase`). English in issues and chat is commentary; the frame is the product.
-
-**System card.**
+Seek is a JSON frame for one informational polymer in molecular biology (`DNA`, `RNA`, `AA`, or `XNA`). Each record holds the primary sequence, annotated `features`, design intent (`want`, `forbid`), and lifecycle `phase`.
 
 | Item | Value |
 |------|--------|
@@ -60,6 +58,8 @@ filled = fill_cds_from_aa(frame, "MK")
 |------|--------|
 | `examples/primer.json` | PCR primer record |
 | `examples/peptide_empty.json` | Peptide spec before fill |
+| `examples/peptide.json` | Filled DNA CDS after encode |
+| `examples/peptide_aa.json` | Amino-acid polymer (`kind: AA`) |
 | `examples/grna.json` | gRNA (RNA) |
 | `examples/mrna_cassette.json` | DNA cassette for IVT mRNA |
 | `examples/chromosome_parent.json` | Parent with child refs |

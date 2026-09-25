@@ -9,6 +9,17 @@ from typing import Any
 from seek.codon_table import reverse_complement, translate_dna_code11
 from seek.validate import load_frame, validate_frame
 
+_SEQ_UNITS: dict[str, str] = {
+    "DNA": "bp",
+    "RNA": "nt",
+    "AA": "aa",
+    "XNA": "nt",
+}
+
+
+def _seq_unit(kind: str) -> str:
+    return _SEQ_UNITS.get(kind, "res")
+
 
 def _slice_seq(seq: str, start: int, end: int, strand: str) -> str:
     if start < 1 or end < start:
@@ -51,7 +62,8 @@ def format_frame(frame: dict[str, Any]) -> str:
     lines.append(f"topo:  {frame['topo']}")
     lines.append(f"phase: {frame['phase']}")
     seq = frame.get("seq") or ""
-    lines.append(f"seq:   ({len(seq)} bp) {seq if len(seq) <= 80 else seq[:77] + '...'}")
+    unit = _seq_unit(frame.get("kind", ""))
+    lines.append(f"seq:   ({len(seq)} {unit}) {seq if len(seq) <= 80 else seq[:77] + '...'}")
     want = frame.get("want") or []
     forbid = frame.get("forbid") or []
     lines.append(f"want:  {want if want else '[]'}")
