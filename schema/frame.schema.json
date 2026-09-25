@@ -36,7 +36,30 @@
     "features": {
       "type": "array",
       "items": {
-        "type": "object"
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "start": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "end": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "strand": {
+            "type": "string"
+          },
+          "ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
       }
     },
     "want": {
@@ -49,8 +72,8 @@
     },
     "phase": {
       "type": "string",
-      "minLength": 1,
-      "description": "Lifecycle phase (e.g. spec, draft, locked)."
+      "enum": ["spec", "filled", "kill", "tube"],
+      "description": "Lifecycle phase: spec (design), filled (sequence present), kill (abandon), tube (synthesized)."
     }
   }
 }

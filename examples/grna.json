@@ -13,5 +13,5 @@
   ],
   "want": ["Cas9 knockdown of target locus"],
   "forbid": ["poly-U run > 4"],
-  "phase": "spec"
+  "phase": "filled"
 }

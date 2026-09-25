@@ -7,7 +7,8 @@ Seek is a JSON frame for one informational polymer in molecular biology (`DNA`, 
 | Core | Eight required fields: `id`, `kind`, `topo`, `seq`, `features`, `want`, `forbid`, `phase` |
 | Polymers | `kind`: `DNA` · `RNA` · `AA` · `XNA` |
 | Topology | `topo`: `linear` · `circular` |
-| Coordinates | 1-based inclusive on `seq` |
+| Phase | `spec` · `filled` · `kill` · `tube` (nonempty `seq` → `filled`; empty `seq` → `spec`) |
+| Coordinates | 1-based inclusive on `seq` when `seq` is non-empty |
 | Chromosome | Parent DNA frame; `features[].ref` → child frame ids (no `kind: chromosome`) |
 | Schema | [`schema/frame.schema.json`](schema/frame.schema.json) |
 | v0 tools | CDS filler (code 11), viewer, tests |
@@ -62,7 +63,7 @@ filled = fill_cds_from_aa(frame, "MK")
 | `examples/peptide_aa.json` | Amino-acid polymer (`kind: AA`) |
 | `examples/grna.json` | gRNA (RNA) |
 | `examples/mrna_cassette.json` | DNA cassette for IVT mRNA |
-| `examples/chromosome_parent.json` | Parent with child refs |
+| `examples/chromosome_parent.json` | Parent with child refs (no spans on empty `seq`) |
 | `examples/chromosome_child_a.json` | Filled child |
 | `examples/chromosome_child_b.json` | Empty child (demo) |
 

@@ -23,11 +23,13 @@ Seek frames are the canonical JSON records for designed sequence in this reposit
 
 4. `kind` is one of `DNA`, `RNA`, `AA`, or `XNA`.
 5. `topo` is `linear` or `circular`.
-6. Coordinates are **1-based inclusive** on `seq`.
-7. Empty `seq` is legal.
-8. `features[].type`, `want[]`, and `forbid[]` are open strings (intent, not ontology).
-9. A chromosome is a **parent DNA frame** whose features carry `ref` to child frame ids. Do **not** add `kind: chromosome`.
-10. Validate against `schema/frame.schema.json` before writing or merging.
+6. `phase` is one of `spec`, `filled`, `kill`, or `tube`. Use `spec` while `seq` is empty; use `filled` once `seq` is written.
+7. Coordinates are **1-based inclusive** on `seq` when `seq` is non-empty. On an empty parent frame, omit feature `start`/`end` and use `ref` only.
+8. Empty `seq` is legal.
+9. Each `features[]` entry must include `type` (string). When `seq` is non-empty, each feature must include `start` and `end` within `[1, len(seq)]`.
+10. `features[].type`, `want[]`, and `forbid[]` are open strings (intent, not ontology).
+11. A chromosome is a **parent DNA frame** whose features carry `ref` to child frame ids. Do **not** add `kind: chromosome`.
+12. Validate against `schema/frame.schema.json` before writing or merging.
 
 ## v0 capabilities (this repo)
 

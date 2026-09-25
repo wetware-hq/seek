@@ -29,6 +29,7 @@ def fill_cds_from_aa(
     out = copy.deepcopy(frame)
     dna = aa_to_dna_code11(amino_acids)
     out["seq"] = dna
+    out["phase"] = "filled"
     end = start + len(dna) - 1
 
     cds = {

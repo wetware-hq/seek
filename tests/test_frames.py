@@ -25,6 +25,7 @@ def test_peptide_filler_writes_seq_and_cds():
     filled = fill_cds_from_aa(frame, "MK")
     validate_frame(filled)
     assert filled["seq"] == "ATGAAA"
+    assert filled["phase"] == "filled"
     assert len(filled["features"]) == 1
     cds = filled["features"][0]
     assert cds["type"] == "CDS"
@@ -67,12 +68,36 @@ def test_chromosome_parent_child_refs():
     assert parent["topo"] == "circular"
     assert child_a["seq"] != ""
     assert child_b["seq"] == ""
-    assert child_a["phase"] == "draft"
+    assert child_a["phase"] == "filled"
     assert child_b["phase"] == "spec"
 
 
 def test_schema_rejects_extra_root_keys():
     frame = load_frame(EXAMPLES / "primer.json")
     bad = {**frame, "extra": True}
+    with pytest.raises(Exception):
+        validate_frame(bad)
+
+
+def test_schema_rejects_unknown_phase():
+    frame = load_frame(EXAMPLES / "primer.json")
+    bad = {**frame, "phase": "draft"}
+    with pytest.raises(Exception):
+        validate_frame(bad)
+
+
+def test_schema_rejects_feature_without_type():
+    frame = load_frame(EXAMPLES / "primer.json")
+    bad = {**frame, "features": [{"foo": 1}]}
+    with pytest.raises(Exception):
+        validate_frame(bad)
+
+
+def test_rejects_span_past_seq_length():
+    frame = load_frame(EXAMPLES / "primer.json")
+    bad = {
+        **frame,
+        "features": [{**frame["features"][0], "end": len(frame["seq"]) + 1}],
+    }
     with pytest.raises(Exception):
         validate_frame(bad)
