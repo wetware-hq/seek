@@ -1,0 +1,17 @@
+{
+  "id": "frm_grna_spacer",
+  "kind": "RNA",
+  "topo": "linear",
+  "seq": "GAGUCCGAGCAGAAGAAGAA",
+  "features": [
+    {
+      "type": "gRNA",
+      "start": 1,
+      "end": 20,
+      "strand": "+"
+    }
+  ],
+  "want": ["Cas9 knockdown of target locus"],
+  "forbid": ["poly-U run > 4"],
+  "phase": "spec"
+}
