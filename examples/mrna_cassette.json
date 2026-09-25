@@ -1,0 +1,35 @@
+{
+  "id": "frm_mrna_cassette",
+  "kind": "DNA",
+  "topo": "linear",
+  "seq": "TAATACGACTCACTATAGGGAGACCACAACGGTTTCCCTCTAGAAATAATTTTGTTTAACTTTAAGAAGGAGATATACCATGGCTTCTAAAGTTTAA",
+  "features": [
+    {
+      "type": "T7_promoter",
+      "start": 1,
+      "end": 20,
+      "strand": "+"
+    },
+    {
+      "type": "5UTR",
+      "start": 21,
+      "end": 54,
+      "strand": "+"
+    },
+    {
+      "type": "CDS",
+      "start": 80,
+      "end": 94,
+      "strand": "+"
+    },
+    {
+      "type": "3UTR",
+      "start": 95,
+      "end": 96,
+      "strand": "+"
+    }
+  ],
+  "want": ["IVT mRNA with T7 and short 3UTR"],
+  "forbid": ["long homopolymer runs"],
+  "phase": "spec"
+}

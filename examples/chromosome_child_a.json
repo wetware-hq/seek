@@ -1,0 +1,17 @@
+{
+  "id": "frm_chr_child_a",
+  "kind": "DNA",
+  "topo": "linear",
+  "seq": "ATGGCTTCTAAAGTT",
+  "features": [
+    {
+      "type": "CDS",
+      "start": 1,
+      "end": 15,
+      "strand": "+"
+    }
+  ],
+  "want": ["filled child segment A"],
+  "forbid": [],
+  "phase": "draft"
+}

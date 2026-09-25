@@ -1,0 +1,25 @@
+{
+  "id": "frm_chr_parent",
+  "kind": "DNA",
+  "topo": "circular",
+  "seq": "",
+  "features": [
+    {
+      "type": "locus",
+      "start": 1,
+      "end": 5000,
+      "strand": "+",
+      "ref": "frm_chr_child_a"
+    },
+    {
+      "type": "locus",
+      "start": 5001,
+      "end": 8000,
+      "strand": "+",
+      "ref": "frm_chr_child_b"
+    }
+  ],
+  "want": ["synthetic chromosome scaffold"],
+  "forbid": [],
+  "phase": "spec"
+}

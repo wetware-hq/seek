@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wetwarehq.github.io/seek/schema/frame.schema.json",
+  "title": "Seek frame",
+  "description": "Sequence representation frame for one informational polymer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "kind",
+    "topo",
+    "seq",
+    "features",
+    "want",
+    "forbid",
+    "phase"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable frame identifier (e.g. frm_001)."
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["DNA", "RNA", "AA", "XNA"]
+    },
+    "topo": {
+      "type": "string",
+      "enum": ["linear", "circular"]
+    },
+    "seq": {
+      "type": "string",
+      "description": "Primary sequence; empty string is legal."
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "want": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "forbid": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "phase": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Lifecycle phase (e.g. spec, draft, locked)."
+    }
+  }
+}
