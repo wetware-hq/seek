@@ -36,7 +36,7 @@
     "features": {
       "type": "array",
       "items": {
-        "type": "object"
+        "$ref": "#/$defs/feature"
       }
     },
     "want": {
@@ -52,5 +52,60 @@
       "minLength": 1,
       "description": "Lifecycle phase (e.g. spec, draft, locked)."
     }
-  }
+  },
+  "$defs": {
+    "feature": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Feature kind (e.g. CDS, primer, locus)."
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-based inclusive start on seq when seq is nonempty."
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-based inclusive end on seq when seq is nonempty."
+        },
+        "strand": {
+          "type": "string",
+          "enum": ["+", "-"]
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Child frame id for composite loci."
+        }
+      }
+    },
+    "feature_on_seq": {
+      "allOf": [
+        { "$ref": "#/$defs/feature" },
+        { "required": ["type", "start", "end"] }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "seq": { "type": "string", "minLength": 1 }
+        },
+        "required": ["seq"]
+      },
+      "then": {
+        "properties": {
+          "features": {
+            "items": { "$ref": "#/$defs/feature_on_seq" }
+          }
+        }
+      }
+    }
+  ]
 }

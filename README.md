@@ -7,7 +7,7 @@ Seek is a JSON frame for one informational polymer in molecular biology (`DNA`, 
 | Core | Eight required fields: `id`, `kind`, `topo`, `seq`, `features`, `want`, `forbid`, `phase` |
 | Polymers | `kind`: `DNA` · `RNA` · `AA` · `XNA` |
 | Topology | `topo`: `linear` · `circular` |
-| Coordinates | 1-based inclusive on `seq` |
+| Coordinates | 1-based inclusive on `seq` when `seq` is nonempty; parent frames with empty `seq` may use `ref` without numeric spans |
 | Chromosome | Parent DNA frame; `features[].ref` → child frame ids (no `kind: chromosome`) |
 | Schema | [`schema/frame.schema.json`](schema/frame.schema.json) |
 | v0 tools | CDS filler (code 11), viewer, tests |

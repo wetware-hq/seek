@@ -76,3 +76,30 @@ def test_schema_rejects_extra_root_keys():
     bad = {**frame, "extra": True}
     with pytest.raises(Exception):
         validate_frame(bad)
+
+
+def test_schema_rejects_feature_without_type():
+    frame = load_frame(EXAMPLES / "primer.json")
+    bad = {
+        **frame,
+        "features": [{"start": 1, "end": 16, "strand": "+"}],
+    }
+    with pytest.raises(Exception):
+        validate_frame(bad)
+
+
+def test_validate_rejects_span_past_seq_len():
+    frame = load_frame(EXAMPLES / "primer.json")
+    bad = {
+        **frame,
+        "features": [
+            {
+                "type": "primer",
+                "start": 1,
+                "end": len(frame["seq"]) + 1,
+                "strand": "+",
+            }
+        ],
+    }
+    with pytest.raises(Exception):
+        validate_frame(bad)
