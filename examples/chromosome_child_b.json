@@ -1,10 +1,10 @@
 {
-  "id": "frm_child_b",
+  "id": "frm_chr_child_b",
   "kind": "DNA",
   "topo": "linear",
   "seq": "",
   "features": [],
-  "want": ["to be designed"],
+  "want": ["child segment B TBD"],
   "forbid": [],
   "phase": "spec"
 }

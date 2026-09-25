@@ -1,0 +1,10 @@
+{
+  "id": "frm_peptide_demo",
+  "kind": "DNA",
+  "topo": "linear",
+  "seq": "",
+  "features": [],
+  "want": ["express MKTAYIAKQRQISFVKSHFSRQ"],
+  "forbid": ["internal EcoRI site"],
+  "phase": "spec"
+}

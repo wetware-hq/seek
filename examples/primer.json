@@ -2,16 +2,16 @@
   "id": "frm_primer_fwd",
   "kind": "DNA",
   "topo": "linear",
-  "seq": "ATGCGTACCTGAACTGGTAC",
+  "seq": "ATGCGTACCTGAACTT",
   "features": [
     {
-      "type": "primer_bind",
+      "type": "primer",
       "start": 1,
-      "end": 20,
+      "end": 16,
       "strand": "+"
     }
   ],
-  "want": ["Tm near 60C for colony PCR"],
-  "forbid": ["hairpin dimer with rev primer"],
+  "want": ["PCR amplification of insert"],
+  "forbid": ["hairpin Tm > 65C"],
   "phase": "spec"
 }

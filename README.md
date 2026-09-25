@@ -1,14 +1,20 @@
 # Seek
 
-A sequence representation frame for synthetic DNA and, more generally, any informational polymer in molecular biology.
+**Clinical abstract.** Seek is a sequence representation frame for synthetic DNA and, more generally, any informational polymer in molecular biology. It is the durable object design models write when they commit sequence: one JSON record per polymer, with explicit intent (`want`, `forbid`) and lifecycle (`phase`). English in issues and chat is commentary; the frame is the product.
 
-Seek is the object that biological frontier intelligence writes when it designs sequence. **The frame is the product.** English is commentary. This repository ships the frame first; inhibitory critics come after the terminals exist.
+**System card.**
 
-Synthetic DNA is a physical scaffold that design models act on. One frame = one polymer. A chromosome is a parent DNA frame whose `features` carry `ref` pointers to child frames—not a separate `kind`.
+| Item | Value |
+|------|--------|
+| Core | Eight required fields: `id`, `kind`, `topo`, `seq`, `features`, `want`, `forbid`, `phase` |
+| Polymers | `kind`: `DNA` · `RNA` · `AA` · `XNA` |
+| Topology | `topo`: `linear` · `circular` |
+| Coordinates | 1-based inclusive on `seq` |
+| Chromosome | Parent DNA frame; `features[].ref` → child frame ids (no `kind: chromosome`) |
+| Schema | [`schema/frame.schema.json`](schema/frame.schema.json) |
+| v0 tools | CDS filler (code 11), viewer, tests |
 
-## Core record (v0)
-
-Every frame carries exactly these eight fields:
+## Core frame
 
 ```json
 {
@@ -23,56 +29,48 @@ Every frame carries exactly these eight fields:
 }
 ```
 
-| Field | Meaning |
-| --- | --- |
-| `id` | Stable frame identifier (e.g. `frm_001`). |
-| `kind` | `DNA` \| `RNA` \| `AA` \| `XNA` |
-| `topo` | `linear` \| `circular` |
-| `seq` | Polymer sequence; empty string is legal. |
-| `features` | Annotated spans on `seq`; coordinates are **1-based inclusive**. |
-| `want` | Open-string design intents (critics bind later). |
-| `forbid` | Open-string prohibitions (critics bind later). |
-| `phase` | Lifecycle label; v0 frames typically start at `spec`. |
-
-`features[].type` and entries in `want` / `forbid` are open strings. Optional feature keys such as `start`, `end`, and `ref` (child frame id) are used in examples and tests.
-
-## System card
-
-| Layer | v0 | Later |
-| --- | --- | --- |
-| Frame + schema | ✓ | |
-| Filler (AA → DNA + CDS, table 11) | ✓ | |
-| Viewer (core fields + CDS translation) | ✓ | |
-| Inhibitory critics on `seq` / `features` / `want` / `forbid` | | ✓ |
-| Optional `write` bag on parent frames | | ✓ |
-| Chat UI, FM wrappers, vendor APIs | — | out of scope |
-
-**Order of operations:** (1) Frame — this repo. (2) Critics that write `phase` and optional `hits`. (3) Optional span-ownership `write` on synthetic chromosomes.
-
 ## Quick start
 
 ```bash
-python -m pip install -e ".[dev]"
+python -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
 pytest
-python -m seek.viewer examples/peptide.json
 ```
 
-Fill a peptide frame (amino-acid `seq` on an `AA` frame) into DNA:
+Validate and view a frame:
+
+```bash
+python -m seek.viewer examples/primer.json
+```
+
+Fill a peptide into DNA (NCBI genetic code 11):
 
 ```python
-from seek.filler import fill_peptide_to_dna
+from seek.filler import fill_cds_from_aa
+from seek.validate import load_frame
 
-frame = {"id": "frm_pep", "kind": "AA", "topo": "linear", "seq": "MK", ...}
-dna = fill_peptide_to_dna(frame, target_id="frm_dna")
+frame = load_frame("examples/peptide_empty.json")
+filled = fill_cds_from_aa(frame, "MK")
 ```
 
-JSON Schema: [`schema/frame.schema.json`](schema/frame.schema.json).
+## Examples
 
-Agent contract: [`AGENTS.md`](AGENTS.md).
+| File | Intent |
+|------|--------|
+| `examples/primer.json` | PCR primer record |
+| `examples/peptide_empty.json` | Peptide spec before fill |
+| `examples/grna.json` | gRNA (RNA) |
+| `examples/mrna_cassette.json` | DNA cassette for IVT mRNA |
+| `examples/chromosome_parent.json` | Parent with child refs |
+| `examples/chromosome_child_a.json` | Filled child |
+| `examples/chromosome_child_b.json` | Empty child (demo) |
 
-## Acceptance (v0)
+## Roadmap
 
-A stranger can type a primer into the record in two minutes. A Wetware demo can show one parent frame and one filled child frame with remaining child sequences empty.
+1. **Frame** (v0, this repo).
+2. Inhibitory critics on `seq`, `features`, `want`, `forbid` → `phase` and optional `hits`.
+3. Optional `write` bag on parent frames for multi-agent chromosome design.
 
 ## License
 

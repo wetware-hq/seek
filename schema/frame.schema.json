@@ -1,9 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://wetwarehq.github.io/seek/schema/frame.schema.json",
-  "title": "Seek frame (v0 core)",
+  "title": "Seek frame",
+  "description": "Sequence representation frame for one informational polymer.",
   "type": "object",
-  "additionalProperties": true,
+  "additionalProperties": false,
   "required": [
     "id",
     "kind",
@@ -17,7 +18,8 @@
   "properties": {
     "id": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "Stable frame identifier (e.g. frm_001)."
     },
     "kind": {
       "type": "string",
@@ -28,35 +30,27 @@
       "enum": ["linear", "circular"]
     },
     "seq": {
-      "type": "string"
+      "type": "string",
+      "description": "Primary sequence; empty string is legal."
     },
     "features": {
       "type": "array",
       "items": {
-        "type": "object",
-        "additionalProperties": true,
-        "required": ["type"],
-        "properties": {
-          "type": {
-            "type": "string"
-          }
-        }
+        "type": "object"
       }
     },
     "want": {
       "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "items": { "type": "string" }
     },
     "forbid": {
       "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "items": { "type": "string" }
     },
     "phase": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "description": "Lifecycle phase (e.g. spec, draft, locked)."
     }
   }
 }

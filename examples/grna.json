@@ -1,21 +1,17 @@
 {
-  "id": "frm_grna",
+  "id": "frm_grna_spacer",
   "kind": "RNA",
   "topo": "linear",
-  "seq": "GUUUUAGAGCUAGAAAUAGCAAGUUAAAAUAAGGCUAGUCCGUUAUCAACUUGAAAAAGUGGCACCGAGUCGGUGCU",
+  "seq": "GAGUCCGAGCAGAAGAAGAA",
   "features": [
     {
-      "type": "scaffold",
-      "start": 20,
-      "end": 85
-    },
-    {
-      "type": "gRNA_spacer",
+      "type": "gRNA",
       "start": 1,
-      "end": 19
+      "end": 20,
+      "strand": "+"
     }
   ],
-  "want": ["cut near target locus"],
-  "forbid": ["off-target in essential gene"],
+  "want": ["Cas9 knockdown of target locus"],
+  "forbid": ["poly-U run > 4"],
   "phase": "spec"
 }

@@ -2,24 +2,24 @@
   "id": "frm_chr_parent",
   "kind": "DNA",
   "topo": "circular",
-  "seq": "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+  "seq": "",
   "features": [
     {
       "type": "locus",
       "start": 1,
-      "end": 24,
-      "ref": "frm_child_a",
-      "label": "operon A"
+      "end": 5000,
+      "strand": "+",
+      "ref": "frm_chr_child_a"
     },
     {
       "type": "locus",
-      "start": 25,
-      "end": 48,
-      "ref": "frm_child_b",
-      "label": "operon B"
+      "start": 5001,
+      "end": 8000,
+      "strand": "+",
+      "ref": "frm_chr_child_b"
     }
   ],
-  "want": ["synthetic chromosome demo"],
+  "want": ["synthetic chromosome scaffold"],
   "forbid": [],
   "phase": "spec"
 }

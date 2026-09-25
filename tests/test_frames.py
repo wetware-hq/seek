@@ -1,81 +1,72 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import pytest
 
-from seek.filler import fill_peptide_to_dna
-from seek.schema import validate_frame
-from seek.viewer import render_frame
-from seek.codon_table import translate_dna
+from seek.filler import fill_cds_from_aa
+from seek.validate import load_frame, validate_frame
+from seek.viewer import format_frame, translate_cds_features
 
-EXAMPLES = Path(__file__).resolve().parents[1] / "examples"
-
-
-def _load(name: str) -> dict:
-    return json.loads((EXAMPLES / name).read_text(encoding="utf-8"))
+EXAMPLES = Path(__file__).resolve().parent.parent / "examples"
 
 
-def test_primer_frame_validates():
-    frame = _load("primer.json")
-    validate_frame(frame)
+def test_primer_frame_validates_and_viewer():
+    frame = load_frame(EXAMPLES / "primer.json")
     assert frame["kind"] == "DNA"
+    assert frame["features"][0]["type"] == "primer"
+    text = format_frame(frame)
+    assert "frm_primer_fwd" in text
+    assert "primer" in text
+
+
+def test_peptide_filler_writes_seq_and_cds():
+    frame = load_frame(EXAMPLES / "peptide_empty.json")
+    filled = fill_cds_from_aa(frame, "MK")
+    validate_frame(filled)
+    assert filled["seq"] == "ATGAAA"
+    assert len(filled["features"]) == 1
+    cds = filled["features"][0]
+    assert cds["type"] == "CDS"
+    assert cds["start"] == 1
+    assert cds["end"] == 6
+    translations = translate_cds_features(filled)
+    assert translations[0][1] == "MK"
+
+
+def test_grna_rna_frame():
+    frame = load_frame(EXAMPLES / "grna.json")
+    assert frame["kind"] == "RNA"
+    assert frame["features"][0]["type"] == "gRNA"
     assert len(frame["seq"]) == 20
 
 
-def test_peptide_filler_writes_dna_and_cds():
-    aa = _load("peptide_aa.json")
-    validate_frame(aa)
-    dna = fill_peptide_to_dna(aa, target_id="frm_peptide_dna")
-    validate_frame(dna)
-    assert dna["kind"] == "DNA"
-    cds = next(f for f in dna["features"] if f["type"] == "CDS")
-    assert cds["start"] == 1
-    assert cds["end"] == len(dna["seq"])
-    assert translate_dna(dna["seq"]) == "MK"
+def test_mrna_cassette_cds_translation():
+    frame = load_frame(EXAMPLES / "mrna_cassette.json")
+    cds_feats = [f for f in frame["features"] if f["type"] == "CDS"]
+    assert len(cds_feats) == 1
+    translations = translate_cds_features(frame)
+    assert len(translations) == 1
+    _, pep = translations[0]
+    assert pep == "MASKV"
 
 
-def test_grna_frame_validates():
-    frame = _load("grna.json")
-    validate_frame(frame)
-    assert frame["kind"] == "RNA"
-    assert any(f["type"] == "gRNA_spacer" for f in frame["features"])
+def test_chromosome_parent_child_refs():
+    parent = load_frame(EXAMPLES / "chromosome_parent.json")
+    child_a = load_frame(EXAMPLES / "chromosome_child_a.json")
+    child_b = load_frame(EXAMPLES / "chromosome_child_b.json")
 
-
-def test_mrna_cassette_validates():
-    frame = _load("mrna_cassette.json")
-    validate_frame(frame)
-    assert frame["topo"] == "linear"
-    assert frame["kind"] == "RNA"
-    types = {f["type"] for f in frame["features"]}
-    assert "five_prime_UTR" in types
-    assert "CDS" in types
-    assert "three_prime_UTR" in types
-
-
-def test_chromosome_parent_with_child_refs():
-    parent = _load("chromosome_parent.json")
-    child_a = _load("chromosome_child_a.json")
-    child_b = _load("chromosome_child_b.json")
-    for frame in (parent, child_a, child_b):
-        validate_frame(frame)
-    refs = {f["ref"] for f in parent["features"] if "ref" in f}
-    assert refs == {"frm_child_a", "frm_child_b"}
+    refs = {f["ref"] for f in parent["features"] if f.get("ref")}
+    assert refs == {"frm_chr_child_a", "frm_chr_child_b"}
+    assert parent["topo"] == "circular"
     assert child_a["seq"] != ""
     assert child_b["seq"] == ""
+    assert child_a["phase"] == "draft"
+    assert child_b["phase"] == "spec"
 
 
-def test_viewer_renders_cds_translation():
-    dna = fill_peptide_to_dna(_load("peptide_aa.json"), target_id="frm_x")
-    text = render_frame(dna)
-    assert "kind: DNA" in text
-    assert "translation[CDS" in text
-    assert "MK" in text
-
-
-def test_schema_rejects_missing_core_field():
-    bad = _load("primer.json").copy()
-    del bad["phase"]
+def test_schema_rejects_extra_root_keys():
+    frame = load_frame(EXAMPLES / "primer.json")
+    bad = {**frame, "extra": True}
     with pytest.raises(Exception):
         validate_frame(bad)
