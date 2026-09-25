@@ -39,6 +39,12 @@ def test_grna_rna_frame():
     assert frame["kind"] == "RNA"
     assert frame["features"][0]["type"] == "gRNA"
     assert len(frame["seq"]) == 20
+    assert "(20 nt)" in format_frame(frame)
+
+
+def test_peptide_aa_viewer_uses_aa_units():
+    frame = load_frame(EXAMPLES / "peptide_aa.json")
+    assert "(2 aa)" in format_frame(frame)
 
 
 def test_mrna_cassette_cds_translation():
