@@ -1,0 +1,17 @@
+{
+  "id": "frm_primer_fwd",
+  "kind": "DNA",
+  "topo": "linear",
+  "seq": "ATGCGTACCTGAACTGGTAC",
+  "features": [
+    {
+      "type": "primer_bind",
+      "start": 1,
+      "end": 20,
+      "strand": "+"
+    }
+  ],
+  "want": ["Tm near 60C for colony PCR"],
+  "forbid": ["hairpin dimer with rev primer"],
+  "phase": "spec"
+}

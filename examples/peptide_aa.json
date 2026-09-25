@@ -1,0 +1,10 @@
+{
+  "id": "frm_peptide_aa",
+  "kind": "AA",
+  "topo": "linear",
+  "seq": "MK",
+  "features": [],
+  "want": ["express in E. coli"],
+  "forbid": [],
+  "phase": "spec"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "frm_mrna",
+  "kind": "RNA",
+  "topo": "linear",
+  "seq": "AAAGAGGAGGAAAUAAAUGAAAUGAAAUAGUAA",
+  "features": [
+    {
+      "type": "five_prime_UTR",
+      "start": 1,
+      "end": 12
+    },
+    {
+      "type": "CDS",
+      "start": 13,
+      "end": 30
+    },
+    {
+      "type": "three_prime_UTR",
+      "start": 31,
+      "end": 33
+    }
+  ],
+  "want": ["strong RBS", "clean stop"],
+  "forbid": [],
+  "phase": "spec"
+}

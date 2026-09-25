@@ -1,0 +1,25 @@
+{
+  "id": "frm_chr_parent",
+  "kind": "DNA",
+  "topo": "circular",
+  "seq": "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+  "features": [
+    {
+      "type": "locus",
+      "start": 1,
+      "end": 24,
+      "ref": "frm_child_a",
+      "label": "operon A"
+    },
+    {
+      "type": "locus",
+      "start": 25,
+      "end": 48,
+      "ref": "frm_child_b",
+      "label": "operon B"
+    }
+  ],
+  "want": ["synthetic chromosome demo"],
+  "forbid": [],
+  "phase": "spec"
+}

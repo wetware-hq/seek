@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wetwarehq.github.io/seek/schema/frame.schema.json",
+  "title": "Seek frame (v0 core)",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "kind",
+    "topo",
+    "seq",
+    "features",
+    "want",
+    "forbid",
+    "phase"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["DNA", "RNA", "AA", "XNA"]
+    },
+    "topo": {
+      "type": "string",
+      "enum": ["linear", "circular"]
+    },
+    "seq": {
+      "type": "string"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "want": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbid": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "phase": {
+      "type": "string"
+    }
+  }
+}

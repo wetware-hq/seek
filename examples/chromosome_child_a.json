@@ -1,0 +1,16 @@
+{
+  "id": "frm_child_a",
+  "kind": "DNA",
+  "topo": "linear",
+  "seq": "ATGAAACGCATTCTGAGCAAA",
+  "features": [
+    {
+      "type": "CDS",
+      "start": 1,
+      "end": 21
+    }
+  ],
+  "want": [],
+  "forbid": [],
+  "phase": "spec"
+}

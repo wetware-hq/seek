@@ -1,0 +1,10 @@
+{
+  "id": "frm_child_b",
+  "kind": "DNA",
+  "topo": "linear",
+  "seq": "",
+  "features": [],
+  "want": ["to be designed"],
+  "forbid": [],
+  "phase": "spec"
+}
